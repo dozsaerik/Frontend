@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-    html {
-        @apply bg-black;
-    }
+  html {
+    @apply bg-gray-800;
+  }
 }

@@ -7,6 +7,17 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "80:3000"
+      - "3000:3000"
     volumes:
       - ./app:/usr/src/app
+    command: npm start
+
+  tailwindcss:
+    container_name: tailwindcss-watcher
+    build:
+      context: .
+    volumes:
+      - ./app:/usr/src/app
+    command: npx tailwindcss -i /usr/src/app/src/style/main.scss -o /usr/src/app/src/style/output.css -w
+    restart: unless-stopped
+    tty: true

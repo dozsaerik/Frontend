@@ -1,10 +1,26 @@
 import React from "react";
+import "./style/output.css";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+
+// Static load
+import RootLayout from "./pages/RootLayout";
+
+// Layz load
+const DashboardPage = React.lazy(() => import('./pages/dashboard/DashboardPage'));
+const LoginPage = React.lazy(() => import('./pages/auth/login/LoginPage'));
+const RegisterPage = React.lazy(() => import('./pages/auth/register/RegisterPage'));
 
 function App() {
     return (
-        <div>
-            React frontend
-        </div>
+        <BrowserRouter>
+            <RootLayout>
+                <Routes>
+                    <Route path="/" element={<DashboardPage/>}/>
+                    <Route path="/login" element={<LoginPage/>}/>
+                    <Route path="/register" element={<RegisterPage/>}/>
+                </Routes>
+            </RootLayout>
+        </BrowserRouter>
     );
 }
 
