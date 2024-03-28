@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  web:
+    container_name: web-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:3000"
+    volumes:
+      - ./app:/usr/src/app
