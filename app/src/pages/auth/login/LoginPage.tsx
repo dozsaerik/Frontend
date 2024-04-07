@@ -2,8 +2,9 @@ import React, {useEffect} from 'react';
 import {string, z,} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
-import {LoginDTO} from "../../../DataObject/LoginDTO";
+import {LoginDTO} from "../../../data_object/LoginDTO";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const schema = () => {
     return (z.object({
@@ -13,6 +14,8 @@ const schema = () => {
 };
 
 function LoginPage() {
+    const navigate = useNavigate();
+
     const {register, setValue, handleSubmit, reset, formState} = useForm<LoginDTO>({
         resolver: zodResolver(schema()),
     })
@@ -22,7 +25,8 @@ function LoginPage() {
     const onSubmit = async (data: LoginDTO): Promise<void> => {
         await axios.post('http://localhost:8080/api/login_check', data)
             .then(response => {
-                window.localStorage.setItem("token", response.data.token)
+                localStorage.setItem("token", response.data.token);
+                navigate("/");
             })
             .catch(error => {
                 console.error(error.response.data);

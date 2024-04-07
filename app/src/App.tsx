@@ -4,6 +4,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 // Static load
 import RootLayout from "./pages/RootLayout";
+import PrivateRoute from "./PrivateRoute";
 
 // Layz load
 const DashboardPage = React.lazy(() => import('./pages/dashboard/DashboardPage'));
@@ -15,7 +16,9 @@ function App() {
         <BrowserRouter>
             <RootLayout>
                 <Routes>
-                    <Route path="/" element={<DashboardPage/>}/>
+                    <Route element={<PrivateRoute/>}>
+                        <Route path="/" element={<DashboardPage/>}></Route>
+                    </Route>
                     <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/register" element={<RegisterPage/>}/>
                 </Routes>
