@@ -1,0 +1,22 @@
+{
+	"common": {
+		"button": {
+			"login": "Belépés",
+			"register": "Regisztráció"
+		},
+		"error": {
+			"invalid_email": "Érvénytelen email",
+			"invalid_password": "Érvénytelen jelszó",
+			"repassword": "A két jelszó nem egyezik"
+		},
+		"email": "Email cim",
+		"password": "Jelszó",
+		"repassword": "Jelszó újra"
+	},
+	"register": {
+		"title": "Regisztráció"
+	},
+	"login": {
+		"title": "Belépés"
+	}
+}

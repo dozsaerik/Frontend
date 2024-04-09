@@ -7,20 +7,23 @@ import {useNavigate} from "react-router-dom";
 import {public_api} from "../../../api/Api";
 import {IconXboxX} from "@tabler/icons-react";
 import TToast from "../../../components/TToast";
+import {useTranslation} from "react-i18next";
+import {TFunction} from "i18next";
 
-const schema = () => {
+const schema = (t: TFunction<"register", undefined>) => {
     return (z.object({
-        email: string().email("Érvénytelen email"),
-        password: string().min(3, "Érvénytelen jelszó")
+        email: string().email(t('common.error.invalid_email')),
+        password: string().min(3, t('common.error.invalid_password'))
     }));
 };
 
 function LoginPage() {
+    const {t} = useTranslation("common");
     const navigate = useNavigate();
     const [loginError, setLoginError] = useState(false);
 
     const {register, setValue, handleSubmit, reset, formState} = useForm<LoginDTO>({
-        resolver: zodResolver(schema()),
+        resolver: zodResolver(schema(t)),
     })
 
     const {errors} = formState;
@@ -58,7 +61,7 @@ function LoginPage() {
         <>
             <div className="fixed mx-auto my-auto max-w-sm sm:max-w-md max-h-[20rem] inset-0 border border-gray-700 rounded-lg p-4 flex flex-col shadow-lg bg-[#222836] items-center">
                 <div className="w-full mb-6 text-xl text-center">
-                    Belépés
+                    {t('login.title')}
                 </div>
                 <div className="w-4/5">
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -68,7 +71,7 @@ function LoginPage() {
                                    required {...register('email')}/>
                             <label htmlFor="email"
                                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                Email cim
+                                {t('common.email')}
                             </label>
                             <p className="absolute mt-2 text-sm text-red-600 dark:text-red-500">{errors.email?.message?.toString()}</p>
                         </div>
@@ -78,12 +81,12 @@ function LoginPage() {
                                    required {...register('password')}/>
                             <label htmlFor="password"
                                    className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                Jelszó
+                                {t('common.password')}
                             </label>
                             <p className="absolute mt-2 text-sm text-red-600 dark:text-red-500">{errors.password?.message?.toString()}</p>
                         </div>
-                        <a href="/register" type="button" className="w-[45%] focus:outline-none text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 text-center">Regisztráció</a>
-                        <button type="submit" className="w-[45%] focus:outline-none text-white bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 float-right" onClick={handleSubmit(onSubmit)}>Belépés</button>
+                        <a href="/register" type="button" className="w-[45%] focus:outline-none text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 text-center">{t('common.button.register')}</a>
+                        <button type="submit" className="w-[45%] focus:outline-none text-white bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 float-right" onClick={handleSubmit(onSubmit)}>{t('common.button.login')}</button>
                     </form>
                 </div>
             </div>

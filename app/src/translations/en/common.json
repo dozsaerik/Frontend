@@ -1,0 +1,22 @@
+{
+    "common": {
+        "button": {
+            "login": "Login",
+            "register": "Register"
+        },
+        "error": {
+            "invalid_email": "Invalid email",
+            "invalid_password": "Invalid password",
+            "repassword": "Password does not match"
+        },
+        "email": "Email",
+        "password": "Password",
+        "repassword": "RePassword"
+    },
+    "register": {
+        "title": "Register"
+    },
+    "login": {
+        "title": "Login"
+    }
+}

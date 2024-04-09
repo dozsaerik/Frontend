@@ -3,8 +3,8 @@ import "./style/output.css";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 
-import register_hu from "./translations/hu/register.json";
-import register_en from "./translations/en/register.json";
+import register_hu from "./translations/hu/common.json";
+import register_en from "./translations/en/common.json";
 import i18next from "i18next";
 
 // Static load
@@ -20,13 +20,13 @@ const RegisterPage = React.lazy(() => import('./pages/auth/register/RegisterPage
 
 i18next.init({
     interpolation: {escapeValue: false},  // React already does escaping
-    lng: 'hu',                              // language to use
+    lng: 'hu',
     resources: {
         hu: {
-            register: register_hu               // 'common' is our custom namespace
+            common: register_hu
         },
         en: {
-            register: register_en
+            common: register_en
         },
     },
 });
