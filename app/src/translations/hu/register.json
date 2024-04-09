@@ -1,0 +1,10 @@
+{
+	"button": {
+		"login": "Belépés",
+		"register": "Regisztráció"
+	},
+	"email": "Email cim",
+	"password": "Jelszó",
+	"repassword": "Jelszó újra",
+	"title": "Regisztráció"
+}

@@ -1,0 +1,10 @@
+{
+	"button": {
+		"login": "Belépés",
+		"register": "Register"
+	},
+	"email": "Email",
+	"password": "Password",
+	"repassword": "RePassword",
+	"title": "Register"
+}
