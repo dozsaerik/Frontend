@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {string, z,} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
-import {LoginDTO} from "../../../data_object/LoginDTO";
+import {LoginDTO} from "./data_object/LoginDTO";
 import {useNavigate} from "react-router-dom";
-import {public_api} from "../../../api/Api";
+import {public_api} from "../../../core/api/Api";
 import {IconXboxX} from "@tabler/icons-react";
-import TToast from "../../../components/TToast";
+import TToast from "../../../core/components/TToast";
 import {useTranslation} from "react-i18next";
 import {TFunction} from "i18next";
 
@@ -36,8 +36,9 @@ function LoginPage() {
                 navigate("/");
             })
             .catch(error => {
+                console.error(error.message);
                 setLoginError(true);
-                console.error(error.response.data);
+                // console.error(error.response.data); // If have connection
             })
     }
 

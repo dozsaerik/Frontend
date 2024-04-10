@@ -1,4 +1,4 @@
-import axios, {AxiosInstance} from 'axios';
+import axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
 
 const BASE_URL = 'http://localhost:8080/api';
 
@@ -19,7 +19,6 @@ api.interceptors.request.use(
         if (token && !config.url?.endsWith('login')) {
             config.headers['Authorization'] = 'Bearer ' + token
         }
-
         return config
     },
     (error) => Promise.reject(error)
@@ -32,25 +31,24 @@ api.interceptors.response.use(
     async function (error) {
         const originalRequest = error.config
 
-        if (error.response.status === 401 && !originalRequest.url.endsWith('/token/refresh')) {
-            window.location.href = '/login';
-            return Promise.reject(error)
-        }
-
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true
-            const refreshToken = localStorage.getItem('refresh_token')
-            const res = await api
-                .post('/token/refresh', {
+
+            try {
+                const refreshToken = localStorage.getItem('refresh_token')
+                const response = await api.post('/token/refresh', {
                     refresh_token: refreshToken
-                })
-            if (res.status === 201) {
-                localStorage.setItem('token', res.data.token);
-                localStorage.setItem("refresh_token", res.data.refresh_token);
-                return api(originalRequest);
+                });
+
+                if (response.status === 201) {
+                    localStorage.setItem('token', response.data.token);
+                    localStorage.setItem("refresh_token", response.data.refresh_token);
+                    return api(originalRequest);
+                }
+            } catch (_error) {
+                return Promise.reject(error)
             }
         }
-        return Promise.reject(error)
     }
 )
 export default api

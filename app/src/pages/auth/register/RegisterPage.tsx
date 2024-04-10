@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
 import {string, z} from "zod";
-import {public_api} from "../../../api/Api";
+import {public_api} from "../../../core/api/Api";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {RegisterDTO} from "../../../data_object/RegisterDTO";
+import {RegisterDTO} from "./data_object/RegisterDTO";
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import { TFunction } from 'i18next';
+import {TFunction} from 'i18next';
 
 const schema = (t: TFunction<"register", undefined>) => {
     return (z.object({
@@ -44,7 +44,8 @@ function RegisterPage() {
                 navigate("/login");
             })
             .catch(error => {
-                console.error(error.response.data);
+                console.error(error.message);
+                // console.error(error.response.data); // If have connection
             });
     }
 
