@@ -12,6 +12,7 @@ import RootLayout from "./core/components/RootLayout";
 import PrivateRoute from "./core/components/PrivateRoute";
 import Logout from "./pages/auth/Logout";
 import {I18nextProvider} from "react-i18next";
+import {Roles} from "./core/enum/Roles";
 
 // Layz load
 const DashboardPage = React.lazy(() => import('./pages/dashboard/DashboardPage'));
@@ -40,14 +41,15 @@ function App() {
                         <Route path="/login" element={<LoginPage/>}/>
                         <Route path="/register" element={<RegisterPage/>}/>
                         <Route path="/logout" element={<Logout/>}/>
-                        <Route element={<PrivateRoute/>}>
-                            <Route path="/" element={<DashboardPage/>}></Route>
+                        <Route element={<PrivateRoute allowedRoles={[Roles.User, Roles.Admin]}/>}>
+                            <Route path="/" element={<DashboardPage/>}/>;
                         </Route>
                     </Routes>
                 </RootLayout>
             </BrowserRouter>
         </I18nextProvider>
-    );
+    )
+        ;
 }
 
 export default App;

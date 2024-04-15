@@ -40,7 +40,7 @@ function RegisterPage() {
             'password': data.password
         })
             .then(response => {
-                localStorage.setItem('register_email', data.email);
+                localStorage.setItem('register_email', data.email); // Replace Naviagtion {{ form: data }}
                 navigate("/login");
             })
             .catch(error => {

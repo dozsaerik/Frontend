@@ -9,6 +9,7 @@ import {IconXboxX} from "@tabler/icons-react";
 import TToast from "../../../core/components/TToast";
 import {useTranslation} from "react-i18next";
 import {TFunction} from "i18next";
+import {LocalStorageID} from "../../../core/enum/LocalStorageID";
 
 const schema = (t: TFunction<"register", undefined>) => {
     return (z.object({
@@ -31,8 +32,8 @@ function LoginPage() {
     const onSubmit = async (data: LoginDTO): Promise<void> => {
         await public_api.post('/login', data)
             .then(response => {
-                localStorage.setItem("token", response.data.token);
-                localStorage.setItem("refresh_token", response.data.refresh_token);
+                localStorage.setItem(LocalStorageID.TOKEN, response.data.token);
+                localStorage.setItem(LocalStorageID.REFRESH_TOKEN, response.data.refresh_token);
                 navigate("/");
             })
             .catch(error => {

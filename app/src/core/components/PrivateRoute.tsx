@@ -1,8 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Navigate, Outlet} from "react-router-dom";
+import {Navigate, Outlet, Route} from "react-router-dom";
 import api from "../api/Api";
+import {Roles} from "../enum/Roles";
 
-function PrivateRoute() {
+interface Props {
+    allowedRoles: Roles[]
+}
+
+function PrivateRoute(props: Props) {
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(true);
 
@@ -17,8 +22,8 @@ function PrivateRoute() {
 
     }, [email]);
 
-    if(loading) {
-        return <Outlet/>
+    if (loading) {
+        return <Outlet/>;
     } else {
         return email.length > 0 ? <Outlet/> : <Navigate to="/login" replace/>;
     }
