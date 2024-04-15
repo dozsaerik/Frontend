@@ -3,7 +3,10 @@ import axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
 const BASE_URL = 'http://localhost:8080/api';
 
 export const public_api: AxiosInstance = axios.create({
-    baseURL: BASE_URL
+    baseURL: BASE_URL,
+    headers: {
+        "Content-Type": "application/json"
+    }
 });
 
 const api: AxiosInstance = axios.create({
@@ -25,9 +28,7 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-    response => {
-        return response
-    },
+    response => response,
     async function (error) {
         const originalRequest = error.config
 
@@ -36,14 +37,15 @@ api.interceptors.response.use(
 
             try {
                 const refreshToken = localStorage.getItem('refresh_token')
-                const response = await api.post('/token/refresh', {
+
+                const response = await public_api.post('/token/refresh', {
                     refresh_token: refreshToken
                 });
 
-                if (response.status === 201) {
+                if (response.status === 200) {
                     localStorage.setItem('token', response.data.token);
                     localStorage.setItem("refresh_token", response.data.refresh_token);
-                    return api(originalRequest);
+                    return api.request(originalRequest);
                 }
             } catch (_error) {
                 return Promise.reject(error)

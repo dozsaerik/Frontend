@@ -1,35 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import {Navigate, Outlet} from "react-router-dom";
 import api from "../api/Api";
-import {AxiosResponse} from "axios";
-import {types} from "sass";
-import Error = types.Error;
 
-type State = {
-    email: string
-}
+function PrivateRoute() {
+    const [email, setEmail] = useState('');
+    const [loading, setLoading] = useState(true);
 
-class PrivateRoute extends React.Component<{}, State> {
+    useEffect(() => {
 
-    constructor(props: {}) {
-        super(props);
-        this.state = {
-            email: ''
-        }
-    }
+        api.get('/me')
+            .then(response => {
+                setEmail(response.data.email);
+            })
+            .catch(error => console.error(error))
+            .finally(() => setLoading(false))
 
-    async componentDidMount() {
-        try {
-            const response: AxiosResponse = await api.get('/me');
-            const result = await response.data;
-            this.setState({email: result.email});
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    }
+    }, [email]);
 
-    render() {
-        return this.state.email.length > 0 ? <Outlet/> : <Navigate to="/login"/>;
+    if(loading) {
+        return <Outlet/>
+    } else {
+        return email.length > 0 ? <Outlet/> : <Navigate to="/login" replace/>;
     }
 
 }
