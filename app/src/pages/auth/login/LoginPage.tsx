@@ -10,6 +10,9 @@ import TToast from "../../../core/components/TToast";
 import {useTranslation} from "react-i18next";
 import {TFunction} from "i18next";
 import {LocalStorageID} from "../../../core/enum/LocalStorageID";
+import {setLoggedInUser} from "../../../core/redux/action/UserActions";
+import store from "../../../core/redux/Store";
+import {Roles} from "../../../core/enum/Roles";
 
 const schema = (t: TFunction<"register", undefined>) => {
     return (z.object({
@@ -22,6 +25,7 @@ function LoginPage() {
     const {t} = useTranslation("common");
     const navigate = useNavigate();
     const [loginError, setLoginError] = useState(false);
+    // const dispatch = useDispatch();
 
     const {register, setValue, handleSubmit, reset, formState} = useForm<LoginDTO>({
         resolver: zodResolver(schema(t)),
@@ -34,6 +38,10 @@ function LoginPage() {
             .then(response => {
                 localStorage.setItem(LocalStorageID.TOKEN, response.data.token);
                 localStorage.setItem(LocalStorageID.REFRESH_TOKEN, response.data.refresh_token);
+                store.dispatch(setLoggedInUser({
+                    email: data.email,
+                    roles: [Roles.ROLE_USER]
+                }));
                 navigate("/");
             })
             .catch(error => {

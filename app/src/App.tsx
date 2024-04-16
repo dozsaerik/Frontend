@@ -1,6 +1,8 @@
 import React from "react";
 import "./core/style/output.css";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {I18nextProvider} from "react-i18next";
+import {Roles} from "./core/enum/Roles";
 
 
 import common_hu from "./core/translations/hu/common.json";
@@ -11,11 +13,10 @@ import i18next from "i18next";
 import RootLayout from "./core/components/RootLayout";
 import PrivateRoute from "./core/components/PrivateRoute";
 import Logout from "./pages/auth/Logout";
-import {I18nextProvider} from "react-i18next";
-import {Roles} from "./core/enum/Roles";
 
 // Layz load
 const DashboardPage = React.lazy(() => import('./pages/dashboard/DashboardPage'));
+const TestPage = React.lazy(() => import('./pages/TestPage'));
 const LoginPage = React.lazy(() => import('./pages/auth/login/LoginPage'));
 const RegisterPage = React.lazy(() => import('./pages/auth/register/RegisterPage'));
 
@@ -41,8 +42,9 @@ function App() {
                         <Route path="/login" element={<LoginPage/>}/>
                         <Route path="/register" element={<RegisterPage/>}/>
                         <Route path="/logout" element={<Logout/>}/>
-                        <Route element={<PrivateRoute allowedRoles={[Roles.User, Roles.Admin]}/>}>
+                        <Route element={<PrivateRoute allowedRoles={[Roles.ROLE_USER, Roles.ROLE_ADMIN]}/>}>
                             <Route path="/" element={<DashboardPage/>}/>;
+                            <Route path="/test" element={<TestPage/>}/>;
                         </Route>
                     </Routes>
                 </RootLayout>
