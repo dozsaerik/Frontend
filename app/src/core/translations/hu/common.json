@@ -11,7 +11,9 @@
 		},
 		"email": "Email cim",
 		"password": "Jelszó",
-		"repassword": "Jelszó újra"
+		"repassword": "Jelszó újra",
+		"settings": "Beállítás",
+		"logout": "Kijelentkezés"
 	},
 	"register": {
 		"title": "Regisztráció"

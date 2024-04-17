@@ -6,6 +6,11 @@
   html {
     @apply bg-gray-800;
     @apply text-white;
+    @apply h-screen;
+  }
+
+  body {
+    @apply h-screen;
   }
 }
 

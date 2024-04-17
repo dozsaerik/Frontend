@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {string, z,} from "zod";
+import {boolean, string, z,} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
 import {LoginDTO} from "./data_object/LoginDTO";
@@ -10,9 +10,8 @@ import TToast from "../../../core/components/TToast";
 import {useTranslation} from "react-i18next";
 import {TFunction} from "i18next";
 import {LocalStorageID} from "../../../core/enum/LocalStorageID";
-import {setLoggedInUser} from "../../../core/redux/action/UserActions";
-import store from "../../../core/redux/Store";
 import {Roles} from "../../../core/enum/Roles";
+import useLocalStorage from "../../../core/hook/useLocalStorage";
 
 const schema = (t: TFunction<"register", undefined>) => {
     return (z.object({
@@ -25,7 +24,7 @@ function LoginPage() {
     const {t} = useTranslation("common");
     const navigate = useNavigate();
     const [loginError, setLoginError] = useState(false);
-    // const dispatch = useDispatch();
+    const {setUserData} = useLocalStorage();
 
     const {register, setValue, handleSubmit, reset, formState} = useForm<LoginDTO>({
         resolver: zodResolver(schema(t)),
@@ -38,11 +37,9 @@ function LoginPage() {
             .then(response => {
                 localStorage.setItem(LocalStorageID.TOKEN, response.data.token);
                 localStorage.setItem(LocalStorageID.REFRESH_TOKEN, response.data.refresh_token);
-                store.dispatch(setLoggedInUser({
-                    email: data.email,
-                    roles: [Roles.ROLE_USER]
-                }));
-                navigate("/");
+                setUserData(data.email, [Roles.ROLE_USER]);
+                // navigate("/", {replace: true});
+                window.location.href = "/";
             })
             .catch(error => {
                 console.error(error.message);
@@ -66,6 +63,8 @@ function LoginPage() {
     function handleHide() {
         setLoginError(false);
     }
+
+    // console.log(boolean(''))
 
     return (
         <>
